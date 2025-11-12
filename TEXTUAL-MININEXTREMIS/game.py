@@ -7,8 +7,8 @@ import json
 
 
 #---Esta funcion es simplemente para imprimir la interfaz, habria que moverla al work_engine---#
-def interfaz(modo, sala, interfaz, text):
-    
+def mostrar_interfaz(modo, sala, interfaz, text):
+    os.system('cls') 
     print(f"modo actual: {modo} || sala actual: {sala}")
     print()
     print(interfaz)
@@ -16,6 +16,12 @@ def interfaz(modo, sala, interfaz, text):
     print(text)
     print()
 #---Esta funcion es simplemente para imprimir la interfaz, habria que moverla al work_engine---# 
+
+
+def dormir():
+   pass
+
+
 
 #---Diccionario de funciones que actuan en los callbacks---#
 callbacks = {
@@ -44,7 +50,7 @@ def game_loop():
     text = "nada"
     objeto_interactuando = "ninguno"
     sala_actual = "dormitorio"
-    
+    dia = 1
     
     options = ["moverse", "actuar", "menu"]
     selected = "moverse"
@@ -64,7 +70,7 @@ def game_loop():
         loops = loops + 1   
 #---Este pequenyo trozo de aqui permite que al pulsar una tecla no se detecten tresmil pulsaciones, y se tomen de una en una---#
 
-        
+        """
         os.system('cls') 
         print("modo actual: ", modo, "||", "sala actual: ", sala_actual, "||", "tecla_actual: ", tecla, "loops: ", loops, "objeto_interactuando: ", objeto_interactuando)
         print()
@@ -72,8 +78,8 @@ def game_loop():
         print()
         print(text)
         print()
-        
-        
+        """
+        mostrar_interfaz(modo, sala_actual, interfaz, text)
         
         
 #---Este trozo de codigo maneja el que sucede cada vez que pulsas un boton, para hacerlo escalable lee las acciones del JSON---#
