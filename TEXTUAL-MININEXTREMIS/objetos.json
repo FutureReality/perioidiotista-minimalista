@@ -1,0 +1,35 @@
+{
+  "objetos": {
+    "cama": {
+      "id": "1",
+      "location": "dormitorio",
+      "estado_actual": "N/A",
+      "descripcion_actual": "Una simple cama, descansa jugador.",
+      "acciones": {
+        "dormir": {
+          "describir_accion": "Te acuestas a dormir",
+          "escena": "fundido_negro",
+          "callback": "dormir"
+        }
+      }
+    },
+    "camara": {
+      "id": "1",
+      "location": "cocina",
+      "estado_actual": "N/A",
+      "descripcion_actual": "Una cámara simple.",
+      "acciones": {
+        "dormir": {
+          "describir_accion": "Te acuestas a dormir",
+          "escena": "fundido_negro",
+          "callback": "dormir"
+        }
+      }
+    }
+  },
+  "salas": [
+    "dormitorio",
+    "cocina",
+    "estudio"
+  ]
+}
