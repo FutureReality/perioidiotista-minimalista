@@ -6,10 +6,12 @@ import work_engine as wk
 import json
 
 
+dia = 1
+text = " "
 #---Esta funcion es simplemente para imprimir la interfaz, habria que moverla al work_engine---#
-def mostrar_interfaz(modo, sala, interfaz, text):
+def mostrar_interfaz(modo, sala, interfaz, text, dia):
     os.system('cls') 
-    print(f"modo actual: {modo} || sala actual: {sala}")
+    print(f"modo actual: {modo} || sala actual: {sala} || Dia actual: {dia}")
     print()
     print(interfaz)
     print()
@@ -19,14 +21,25 @@ def mostrar_interfaz(modo, sala, interfaz, text):
 
 
 def dormir():
-   pass
+    global dia
+    if dia < 3:
+        dia = dia + 1
+    elif dia == 3:
+        return "final"
+    return dia
 
-
+def final():
+    global text
+    text = "Fin del juego"
 
 #---Diccionario de funciones que actuan en los callbacks---#
 callbacks = {
     "dormir": dormir,
     # otros callbacks en caso de que existan
+}
+
+eventos = {
+    "final": final,
 }
 #---Diccionario de funciones que actuan en los callbacks---#
 
@@ -47,10 +60,10 @@ def game_loop():
     modo = "ninguno"
     tecla = "k"
     interfaz = "nada"
-    text = "nada"
+    global text
     objeto_interactuando = "ninguno"
     sala_actual = "dormitorio"
-    dia = 1
+    evento = " "
     
     options = ["moverse", "actuar", "menu"]
     selected = "moverse"
@@ -70,16 +83,10 @@ def game_loop():
         loops = loops + 1   
 #---Este pequenyo trozo de aqui permite que al pulsar una tecla no se detecten tresmil pulsaciones, y se tomen de una en una---#
 
-        """
-        os.system('cls') 
-        print("modo actual: ", modo, "||", "sala actual: ", sala_actual, "||", "tecla_actual: ", tecla, "loops: ", loops, "objeto_interactuando: ", objeto_interactuando)
-        print()
-        print(interfaz)
-        print()
-        print(text)
-        print()
-        """
-        mostrar_interfaz(modo, sala_actual, interfaz, text)
+        if evento in eventos:
+            eventos[evento]()
+
+        mostrar_interfaz(modo, sala_actual, interfaz, text, dia)
         
         
 #---Este trozo de codigo maneja el que sucede cada vez que pulsas un boton, para hacerlo escalable lee las acciones del JSON---#
@@ -150,6 +157,13 @@ def game_loop():
                 elif selected in options and selected != "atras":
                     text = objetos["objetos"][objeto_interactuando]["acciones"][selected]["describir_accion"]
                     interfaz = objetos["objetos"][objeto_interactuando]["acciones"][selected]["escena"]
+                    for informacion in objetos["objetos"][objeto_interactuando]["acciones"][selected]:
+                        if informacion == "callback":
+                            callback_name = objetos["objetos"][objeto_interactuando]["acciones"][selected]["callback"]
+                            if callback_name in callbacks:
+                                evento = callbacks[callback_name]()
+                        else:
+                            pass
                 continue
          
 #            +-----Aqui haria falta agregar un modo "interactuando para que al darle a <<atras>> no se vaya al menu general-----+
