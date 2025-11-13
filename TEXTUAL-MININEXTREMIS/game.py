@@ -4,14 +4,13 @@ import os
 import time
 import work_engine as wk
 import json
+import callbacks as cb
 
 
-dia = 1
-text = " "
 #---Esta funcion es simplemente para imprimir la interfaz, habria que moverla al work_engine---#
-def mostrar_interfaz(modo, sala, interfaz, text, dia):
+def mostrar_interfaz(modo, sala, interfaz, text, dia, evento):
     os.system('cls') 
-    print(f"modo actual: {modo} || sala actual: {sala} || Dia actual: {dia}")
+    print(f"modo actual: {modo} || sala actual: {sala} || Dia actual: {dia} || Evento: {evento}")
     print()
     print(interfaz)
     print()
@@ -20,27 +19,14 @@ def mostrar_interfaz(modo, sala, interfaz, text, dia):
 #---Esta funcion es simplemente para imprimir la interfaz, habria que moverla al work_engine---# 
 
 
-def dormir():
-    global dia
-    if dia < 3:
-        dia = dia + 1
-    elif dia == 3:
-        return "final"
-    return dia
 
-def final():
-    global text
-    text = "Fin del juego"
+
+
 
 #---Diccionario de funciones que actuan en los callbacks---#
-callbacks = {
-    "dormir": dormir,
-    # otros callbacks en caso de que existan
-}
 
-eventos = {
-    "final": final,
-}
+
+
 #---Diccionario de funciones que actuan en los callbacks---#
 
 
@@ -49,21 +35,15 @@ def game_loop():
 
 
 
-#---Abrimos y asignamos a variable el JSON que contiene informacion de objetos, salas y las tomas de acciones---#
-    with open('objetos.json', 'r', encoding='utf-8') as f:
-        objetos = json.load(f)
-#---Abrimos y asignamos a variable el JSON que contiene informacion de objetos, salas y las tomas de acciones---#
-
-
-
 #---Aqui inicializamos las variables para que luego puedan ser utilizadas---#
     modo = "ninguno"
     tecla = "k"
     interfaz = "nada"
-    global text
+    text = "" 
     objeto_interactuando = "ninguno"
     sala_actual = "dormitorio"
     evento = " "
+
     
     options = ["moverse", "actuar", "menu"]
     selected = "moverse"
@@ -76,6 +56,11 @@ def game_loop():
     
     while True:
 
+    #---Abrimos y asignamos a variable el JSON que contiene informacion de objetos, salas y las tomas de acciones---#
+        with open('objetos.json', 'r', encoding='utf-8') as f:
+            objetos = json.load(f)
+    #---Abrimos y asignamos a variable el JSON que contiene informacion de objetos, salas y las tomas de acciones---#
+        dia = objetos["world"]["mundo"]["dia"]
 
 #---Este pequenyo trozo de aqui permite que al pulsar una tecla no se detecten tresmil pulsaciones, y se tomen de una en una---#
         if kb.is_pressed(tecla):
@@ -83,10 +68,10 @@ def game_loop():
         loops = loops + 1   
 #---Este pequenyo trozo de aqui permite que al pulsar una tecla no se detecten tresmil pulsaciones, y se tomen de una en una---#
 
-        if evento in eventos:
-            eventos[evento]()
+        if evento in cb.eventos:
+            text = cb.eventos[evento]()
 
-        mostrar_interfaz(modo, sala_actual, interfaz, text, dia)
+        mostrar_interfaz(modo, sala_actual, interfaz, text, dia, evento)
         
         
 #---Este trozo de codigo maneja el que sucede cada vez que pulsas un boton, para hacerlo escalable lee las acciones del JSON---#
@@ -160,8 +145,8 @@ def game_loop():
                     for informacion in objetos["objetos"][objeto_interactuando]["acciones"][selected]:
                         if informacion == "callback":
                             callback_name = objetos["objetos"][objeto_interactuando]["acciones"][selected]["callback"]
-                            if callback_name in callbacks:
-                                evento = callbacks[callback_name]()
+                            if callback_name in cb.callbacks:
+                                evento = cb.callbacks[callback_name]()
                         else:
                             pass
                 continue
