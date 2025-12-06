@@ -36,10 +36,14 @@
         "personaje": {
             "hambre": 100,
             "sed": 100,
-            "estado": "normal"
+            "estado": "normal",
+            "sala_actual": " ",
+            "texto": " ",
+            "interfaz": " ",
+            "modo": " "
         },
         "mundo": {
-            "dia": 1,
+            "dia": 3,
             "hora": "amanecer"
         }
     }

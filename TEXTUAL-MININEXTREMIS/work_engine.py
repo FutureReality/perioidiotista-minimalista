@@ -4,6 +4,18 @@ import os
 import time
 
 
+#---Esta funcion es simplemente para imprimir la interfaz, habria que moverla al work_engine---#
+def mostrar_interfaz(modo, sala, interfaz, text, dia, evento):
+    os.system('cls') 
+    print(f"modo actual: {modo} || sala actual: {sala} || Dia actual: {dia} || Evento: {evento}")
+    print()
+    print(interfaz)
+    print()
+    print(text)
+    print()
+#---Esta funcion es simplemente para imprimir la interfaz, habria que moverla al work_engine---# 
+
+
 def selection(selected, tecla, options):
     cantidad_opciones = len(options)
     

@@ -25,12 +25,16 @@ def final():
     text = "Fin del juego"
     return text
 
-    
+
+#---Diccionario de callbacks, los callbacks se llaman desde el JSON---#    
 callbacks = {
     "dormir": dormir,
     # otros callbacks en caso de que existan
 }
+#---Diccionario de callbacks, los callbacks se llaman desde el JSON---#
 
+#---Diccionario de eventos, estoy se ejecutan en ocasiones muy especcificas---#
 eventos = {
     "final": final,
 } 
+#---Diccionario de eventos, estoy se ejecutan en ocasiones muy especcificas---#

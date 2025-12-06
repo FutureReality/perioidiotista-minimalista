@@ -7,33 +7,7 @@ import json
 import callbacks as cb
 
 
-#---Esta funcion es simplemente para imprimir la interfaz, habria que moverla al work_engine---#
-def mostrar_interfaz(modo, sala, interfaz, text, dia, evento):
-    os.system('cls') 
-    print(f"modo actual: {modo} || sala actual: {sala} || Dia actual: {dia} || Evento: {evento}")
-    print()
-    print(interfaz)
-    print()
-    print(text)
-    print()
-#---Esta funcion es simplemente para imprimir la interfaz, habria que moverla al work_engine---# 
-
-
-
-
-
-
-#---Diccionario de funciones que actuan en los callbacks---#
-
-
-
-#---Diccionario de funciones que actuan en los callbacks---#
-
-
-
 def game_loop():
-
-
 
 #---Aqui inicializamos las variables para que luego puedan ser utilizadas---#
     modo = "ninguno"
@@ -71,7 +45,7 @@ def game_loop():
         if evento in cb.eventos:
             text = cb.eventos[evento]()
 
-        mostrar_interfaz(modo, sala_actual, interfaz, text, dia, evento)
+        wk.mostrar_interfaz(modo, sala_actual, interfaz, text, dia, evento)
         
         
 #---Este trozo de codigo maneja el que sucede cada vez que pulsas un boton, para hacerlo escalable lee las acciones del JSON---#
@@ -82,6 +56,7 @@ def game_loop():
             
                 if selected == "moverse":
                     modo = "moverse"
+
                     options = []
                     for sala in objetos["salas"]:
                         options.append(sala)
